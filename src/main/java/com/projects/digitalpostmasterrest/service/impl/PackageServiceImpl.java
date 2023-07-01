@@ -1,6 +1,7 @@
 package com.projects.digitalpostmasterrest.service.impl;
 
 import com.projects.digitalpostmasterrest.dao.PackageDao;
+import com.projects.digitalpostmasterrest.dto.PackageDto;
 import com.projects.digitalpostmasterrest.dto.custom.PackageCreateReqDto;
 import com.projects.digitalpostmasterrest.error.ErrorAlert;
 import com.projects.digitalpostmasterrest.model.Package;
@@ -9,11 +10,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.projects.digitalpostmasterrest.constant.Contants.*;
 
 @Slf4j
 @Service
 public class PackageServiceImpl implements PackageService {
+
     private final PackageDao packageDao;
 
     public PackageServiceImpl(PackageDao packageDao) {
@@ -54,8 +59,29 @@ public class PackageServiceImpl implements PackageService {
             newPackage = packageDao.save(newPackage);
             if (newPackage != null) {
                 return ResponseEntity.ok(newPackage.toDto());
-            }else {
+            } else {
                 throw new ErrorAlert(PACKAGE_CREATE_ERROR, "400");
+            }
+
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            throw new ErrorAlert(e.getMessage(), "400");
+        }
+    }
+
+    @Override
+    public ResponseEntity getAllPackages() {
+        try {
+
+            List<Package> packages = new ArrayList<>();
+            if (packages.isEmpty()) {
+                throw new ErrorAlert(PACKAGE_LIST_EMPTY, "400");
+            } else {
+                List<PackageDto> packageList = new ArrayList<>();
+                for (Package p : packages) {
+                    packageList.add(p.toDto());
+                }
+                return ResponseEntity.ok(packageList);
             }
 
         } catch (Exception e) {

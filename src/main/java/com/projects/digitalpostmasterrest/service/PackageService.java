@@ -5,4 +5,5 @@ import org.springframework.http.ResponseEntity;
 
 public interface PackageService {
     ResponseEntity createPackage(PackageCreateReqDto packageCreateReqDto);
+    ResponseEntity getAllPackages();
 }

@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 
 @Getter
@@ -15,7 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document(collection = "PACKAGE")
 public class Package extends AuditModel {
 
-    @Id
+    @MongoId
     private String packageId;
     @Field
     private String sender;
