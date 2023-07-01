@@ -21,12 +21,12 @@ public class Package extends AuditModel {
     @Field
     private String receiver;
     @Field
+    private String receiverAddress;
+    @Field
     private String dimensions;
     @Field
     private Float weight;
     @Field
     private String instructions;
-    @Field
-    private Float fee;
 
 }

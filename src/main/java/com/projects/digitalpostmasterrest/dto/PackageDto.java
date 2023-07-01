@@ -15,9 +15,9 @@ public class PackageDto extends AuditModel {
     private String packageId;
     private String sender;
     private String receiver;
+    private String receiverAddress;
     private String dimensions;
     private Float weight;
     private String instructions;
-    private Float fee;
 
 }
