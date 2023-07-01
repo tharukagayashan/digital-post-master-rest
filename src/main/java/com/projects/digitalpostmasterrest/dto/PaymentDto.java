@@ -1,10 +1,10 @@
 package com.projects.digitalpostmasterrest.dto;
 
 import com.projects.digitalpostmasterrest.common.AuditModel;
-import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
