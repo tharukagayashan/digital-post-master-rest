@@ -1,6 +1,7 @@
 package com.projects.digitalpostmasterrest.model;
 
 import com.projects.digitalpostmasterrest.common.AuditModel;
+import com.projects.digitalpostmasterrest.dto.PackageDto;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -28,5 +29,20 @@ public class Package extends AuditModel {
     private Float weight;
     @Field
     private String instructions;
+
+    public PackageDto toDto() {
+        PackageDto packageDto = new PackageDto();
+        packageDto.setPackageId(this.packageId);
+        packageDto.setSender(this.getSender());
+        packageDto.setReceiver(this.getReceiver());
+        packageDto.setReceiverAddress(this.receiverAddress);
+        packageDto.setDimensions(this.getDimensions());
+        packageDto.setWeight(this.getWeight());
+        packageDto.setInstructions(this.getInstructions());
+        packageDto.setCreatedDate(this.getCreatedDate());
+        packageDto.setCreatedTime(this.getCreatedTime());
+        packageDto.setCreatedBy(this.getCreatedBy());
+        return packageDto;
+    }
 
 }

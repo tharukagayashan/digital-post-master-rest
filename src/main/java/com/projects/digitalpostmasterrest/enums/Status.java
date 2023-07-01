@@ -1,4 +1,4 @@
-package com.projects.digitalpostmasterrest.constant;
+package com.projects.digitalpostmasterrest.enums;
 
 enum Status {
 
