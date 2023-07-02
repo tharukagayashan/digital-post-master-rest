@@ -14,9 +14,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class DeliveryTaskDto extends AuditModel {
 
-    private String deliveryTaskId;
-    private String packageId;
-    private String agentId;
+    private Integer deliveryTaskId;
+    private Integer packageId;
+    private Integer agentId;
     private String pickupAddress;
     private String deliveryAddress;
     private String status;

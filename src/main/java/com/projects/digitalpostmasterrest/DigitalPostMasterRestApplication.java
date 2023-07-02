@@ -1,15 +1,10 @@
 package com.projects.digitalpostmasterrest;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@CrossOrigin
-@ComponentScan(basePackages = "com.projects.digitalpostmasterrest.dao")
-@SpringBootConfiguration
+@EnableJpaRepositories
 @SpringBootApplication
 public class DigitalPostMasterRestApplication {
 

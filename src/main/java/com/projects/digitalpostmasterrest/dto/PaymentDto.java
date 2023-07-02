@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentDto extends AuditModel {
-    private String paymentId;
-    private String userId;
-    private String packageId;
+    private Integer paymentId;
+    private Integer userId;
+    private Integer packageId;
     private Float amount;
     private String status;
     private LocalDateTime time;

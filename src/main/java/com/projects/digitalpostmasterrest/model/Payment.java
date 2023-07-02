@@ -5,28 +5,32 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "PAYMENT")
+@Entity
+@Table(name = "PAYMENT")
 public class Payment extends AuditModel {
     @Id
-    private String paymentId;
-    @Field
-    private String userId;
-    @Field
-    private String packageId;
-    @Field
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "PAYMENT_ID")
+    private Integer paymentId;
+    @Column(name = "AMOUNT")
     private Float amount;
-    @Field
+    @Column(name = "STATUS")
     private String status;
-    @Field
+    @Column(name = "TIME")
     private LocalDateTime time;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID",referencedColumnName = "USER_ID",nullable = false)
+    private UserDetail userDetail;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PACKAGE_ID",referencedColumnName = "PACKAGE_ID",nullable = false)
+    private PackageDetail packageDetail;
 }

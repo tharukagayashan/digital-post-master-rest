@@ -5,22 +5,25 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+
+import javax.persistence.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "AGENT")
+@Entity
+@Table(name = "AGENT")
 public class Agent extends AuditModel {
+
     @Id
-    private String agentId;
-    @Field
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "AGENT_ID")
+    private Integer agentId;
+    @Column(name = "NAME")
     private String name;
-    @Field
+    @Column(name = "CONTACT_NO")
     private String contactNo;
-    @Field
+    @Column(name = "CURRENT_LOCATION")
     private String currentLocation;
 }
