@@ -67,6 +67,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>post-master-rest</finalName>
 	</build>
 
 </project>
