@@ -13,8 +13,11 @@ COPY .mvn ./mvn
 RUN apt-get update && apt-get install -y maven
 RUN mvn clean install
 
+# Set the working directory for the JAR file
+WORKDIR /app/target
+
 # Copy the built JAR file to the container
-COPY target/post-master-rest.jar /app/app.jar
+COPY post-master-rest.jar /app/app.jar
 
 # Set the entrypoint command to run the Spring Boot application
 ENTRYPOINT ["java","-jar","/app/app.jar"]
