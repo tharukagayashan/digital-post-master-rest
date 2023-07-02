@@ -1,6 +1,7 @@
 package com.projects.digitalpostmasterrest.service.impl;
 
 import com.projects.digitalpostmasterrest.dao.PackageDao;
+import com.projects.digitalpostmasterrest.dto.PackageDetailDto;
 import com.projects.digitalpostmasterrest.dto.custom.PackageCreateReqDto;
 import com.projects.digitalpostmasterrest.error.ErrorAlert;
 import com.projects.digitalpostmasterrest.model.PackageDetail;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.projects.digitalpostmasterrest.constant.Contants.*;
@@ -72,9 +74,13 @@ public class PackageServiceImpl implements PackageService {
         try {
 
             List<PackageDetail> packageDetails = packageDao.findAll();
+            List<PackageDetailDto> packageDtoList = new ArrayList<>();
             if (packageDetails.isEmpty()) {
                 throw new ErrorAlert(PACKAGE_LIST_EMPTY, "400");
             } else {
+                for (PackageDetail p : packageDetails) {
+                    packageDtoList.add(p.toDto());
+                }
                 return ResponseEntity.ok(packageDetails);
             }
 

@@ -37,10 +37,10 @@ public class PackageDetail extends AuditModel {
 
     public PackageDetailDto toDto() {
         PackageDetailDto packageDetailDto = new PackageDetailDto();
-        packageDetailDto.setPackageId(this.packageId);
+        packageDetailDto.setPackageId(this.getPackageId());
         packageDetailDto.setSender(this.getSender());
         packageDetailDto.setReceiver(this.getReceiver());
-        packageDetailDto.setReceiverAddress(this.receiverAddress);
+        packageDetailDto.setReceiverAddress(this.getReceiverAddress());
         packageDetailDto.setDimensions(this.getDimensions());
         packageDetailDto.setWeight(this.getWeight());
         packageDetailDto.setInstructions(this.getInstructions());
