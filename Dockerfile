@@ -12,6 +12,6 @@ RUN mvn clean install
 
 WORKDIR /app
 
-COPY target/post-master-rest.jar post-master-rest.jar
+COPY target/post-master-rest.jar /app/post-master-rest.jar
 
 ENTRYPOINT ["java","-jar","/app/post-master-rest.jar"]
