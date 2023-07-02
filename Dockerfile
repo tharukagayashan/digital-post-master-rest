@@ -1,23 +1,14 @@
-# Use an OpenJDK 8 base image
+#
+#Build stage
+#
+FROM maven:3.8.2-jdk-8 AS build
+COPY . .
+RUN mvn clean package -Pprod -DskipTests
+
+#
+# Package stage
+#
 FROM openjdk:8
-
-# Set the working directory inside the container
-WORKDIR /app
-
-# Copy the project files to the container
-COPY pom.xml .
-COPY src ./src
-COPY .mvn ./mvn
-
-# Install Maven and build the project
-RUN apt-get update && apt-get install -y maven
-RUN mvn clean install
-
-# Set the working directory for the JAR file
-WORKDIR /app/target
-
-# Copy the built JAR file to the container
-COPY post-master-rest.jar /app/app.jar
-
-# Set the entrypoint command to run the Spring Boot application
-ENTRYPOINT ["java","-jar","/app/app.jar"]
+COPY --from=build /target/post-master-rest.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","app.jar"]
