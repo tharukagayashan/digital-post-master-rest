@@ -1,9 +1,9 @@
 package com.projects.digitalpostmasterrest.dao;
 
-import com.projects.digitalpostmasterrest.model.User;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import com.projects.digitalpostmasterrest.model.UserDetail;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserDao extends MongoRepository<User, String> {
+public interface UserDao extends JpaRepository<UserDetail, Integer> {
 }

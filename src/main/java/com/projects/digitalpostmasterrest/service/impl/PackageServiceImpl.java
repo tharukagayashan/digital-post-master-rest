@@ -1,16 +1,14 @@
 package com.projects.digitalpostmasterrest.service.impl;
 
 import com.projects.digitalpostmasterrest.dao.PackageDao;
-import com.projects.digitalpostmasterrest.dto.PackageDto;
 import com.projects.digitalpostmasterrest.dto.custom.PackageCreateReqDto;
 import com.projects.digitalpostmasterrest.error.ErrorAlert;
-import com.projects.digitalpostmasterrest.model.Package;
+import com.projects.digitalpostmasterrest.model.PackageDetail;
 import com.projects.digitalpostmasterrest.service.PackageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.projects.digitalpostmasterrest.constant.Contants.*;
@@ -48,17 +46,17 @@ public class PackageServiceImpl implements PackageService {
                 log.info("Required properties are found!!!");
             }
 
-            Package newPackage = new Package();
-            newPackage.setSender(sender);
-            newPackage.setReceiver(receiver);
-            newPackage.setReceiverAddress(receiverAddress);
-            newPackage.setDimensions(dimensions);
-            newPackage.setWeight(packageCreateReqDto.getWeight());
-            newPackage.setInstructions(packageCreateReqDto.getInstructions());
+            PackageDetail newPackageDetail = new PackageDetail();
+            newPackageDetail.setSender(sender);
+            newPackageDetail.setReceiver(receiver);
+            newPackageDetail.setReceiverAddress(receiverAddress);
+            newPackageDetail.setDimensions(dimensions);
+            newPackageDetail.setWeight(packageCreateReqDto.getWeight());
+            newPackageDetail.setInstructions(packageCreateReqDto.getInstructions());
 
-            newPackage = packageDao.save(newPackage);
-            if (newPackage != null) {
-                return ResponseEntity.ok(newPackage.toDto());
+            newPackageDetail = packageDao.save(newPackageDetail);
+            if (newPackageDetail != null) {
+                return ResponseEntity.ok(newPackageDetail.toDto());
             } else {
                 throw new ErrorAlert(PACKAGE_CREATE_ERROR, "400");
             }
@@ -73,15 +71,11 @@ public class PackageServiceImpl implements PackageService {
     public ResponseEntity getAllPackages() {
         try {
 
-            List<Package> packages = new ArrayList<>();
-            if (packages.isEmpty()) {
+            List<PackageDetail> packageDetails = packageDao.findAll();
+            if (packageDetails.isEmpty()) {
                 throw new ErrorAlert(PACKAGE_LIST_EMPTY, "400");
             } else {
-                List<PackageDto> packageList = new ArrayList<>();
-                for (Package p : packages) {
-                    packageList.add(p.toDto());
-                }
-                return ResponseEntity.ok(packageList);
+                return ResponseEntity.ok(packageDetails);
             }
 
         } catch (Exception e) {

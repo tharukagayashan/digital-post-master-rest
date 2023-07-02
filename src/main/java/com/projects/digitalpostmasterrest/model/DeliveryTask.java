@@ -5,34 +5,40 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "DELIVERY_TASK")
+@Entity
+@Table(name = "DELIVERY_TASK")
 public class DeliveryTask extends AuditModel {
 
     @Id
-    private String deliveryTaskId;
-    @Field
-    private String packageId;
-    @Field
-    private String agentId;
-    @Field
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "DELIVERY_TASK_ID")
+    private Integer deliveryTaskId;
+    @Column(name = "PICKUP_ADDRESS")
     private String pickupAddress;
-    @Field
+    @Column(name = "DELIVERY_ADDRESS")
     private String deliveryAddress;
-    @Field
+    @Column(name = "STATUS")
     private String status;
-    @Field
+    @Column(name = "START_TIME")
     private LocalDateTime startTime;
-    @Field
+    @Column(name = "END_TIME")
     private LocalDateTime endTime;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PACKAGE_ID", referencedColumnName = "PACKAGE_ID", nullable = false)
+    private PackageDetail packageDetail;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "AGENT_ID", referencedColumnName = "AGENT_ID", nullable = false)
+    private Agent agent;
 
 }
