@@ -1,6 +1,6 @@
 package com.projects.digitalpostmasterrest.service.impl;
 
-import com.projects.digitalpostmasterrest.dao.PackageDao;
+import com.projects.digitalpostmasterrest.dao.PackageDetailDao;
 import com.projects.digitalpostmasterrest.dto.PackageDetailDto;
 import com.projects.digitalpostmasterrest.dto.custom.PackageCreateReqDto;
 import com.projects.digitalpostmasterrest.error.ErrorAlert;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.projects.digitalpostmasterrest.constant.Contants.*;
 
@@ -19,10 +20,10 @@ import static com.projects.digitalpostmasterrest.constant.Contants.*;
 @Service
 public class PackageServiceImpl implements PackageService {
 
-    private final PackageDao packageDao;
+    private final PackageDetailDao packageDetailDao;
 
-    public PackageServiceImpl(PackageDao packageDao) {
-        this.packageDao = packageDao;
+    public PackageServiceImpl(PackageDetailDao packageDetailDao) {
+        this.packageDetailDao = packageDetailDao;
     }
 
     @Override
@@ -56,7 +57,7 @@ public class PackageServiceImpl implements PackageService {
             newPackageDetail.setWeight(packageCreateReqDto.getWeight());
             newPackageDetail.setInstructions(packageCreateReqDto.getInstructions());
 
-            newPackageDetail = packageDao.save(newPackageDetail);
+            newPackageDetail = packageDetailDao.save(newPackageDetail);
             if (newPackageDetail != null) {
                 return ResponseEntity.ok(newPackageDetail.toDto());
             } else {
@@ -73,7 +74,7 @@ public class PackageServiceImpl implements PackageService {
     public ResponseEntity getAllPackages() {
         try {
 
-            List<PackageDetail> packageDetails = packageDao.findAll();
+            List<PackageDetail> packageDetails = packageDetailDao.findAll();
             List<PackageDetailDto> packageDtoList = new ArrayList<>();
             if (packageDetails.isEmpty()) {
                 throw new ErrorAlert(PACKAGE_LIST_EMPTY, "400");
@@ -84,6 +85,36 @@ public class PackageServiceImpl implements PackageService {
                 return ResponseEntity.ok(packageDetails);
             }
 
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            throw new ErrorAlert(e.getMessage(), "400");
+        }
+    }
+
+    @Override
+    public ResponseEntity updatePackage(PackageDetailDto packageDetailDto) {
+        try {
+            if (packageDetailDto.getPackageId() == null) {
+                log.error(PACKAGE_ID_NULL);
+                throw new ErrorAlert(PACKAGE_ID_NULL, "400");
+            } else {
+                Optional<PackageDetail> optPackage = packageDetailDao.findById(packageDetailDto.getPackageId());
+                if (!optPackage.isPresent()) {
+                    log.error(PACKAGE_NOT_FOUND);
+                    throw new ErrorAlert(PACKAGE_NOT_FOUND, "400");
+                } else {
+                    PackageDetail packageDetail = optPackage.get();
+                    packageDetail.setDimensions(packageDetailDto.getDimensions());
+                    packageDetail.setSender(packageDetailDto.getSender());
+                    packageDetail.setInstructions(packageDetailDto.getInstructions());
+                    packageDetail.setWeight(packageDetailDto.getWeight());
+                    packageDetail.setReceiver(packageDetailDto.getReceiver());
+                    packageDetail.setReceiverAddress(packageDetailDto.getReceiverAddress());
+
+                    packageDetail = packageDetailDao.save(packageDetail);
+                    return ResponseEntity.ok(packageDetail.toDto());
+                }
+            }
         } catch (Exception e) {
             log.info(e.getMessage());
             throw new ErrorAlert(e.getMessage(), "400");
