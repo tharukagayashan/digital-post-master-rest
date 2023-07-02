@@ -10,5 +10,5 @@ RUN mvn clean package -Pprod -DskipTests
 #
 FROM openjdk:8
 COPY --from=build /target/post-master-rest.jar app.jar
-
-ENTRYPOINT["java","-jar","app.jar"]
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","app.jar"]
