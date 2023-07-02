@@ -45,7 +45,6 @@ public class PackageDetail extends AuditModel {
         packageDetailDto.setWeight(this.getWeight());
         packageDetailDto.setInstructions(this.getInstructions());
         packageDetailDto.setCreatedDate(this.getCreatedDate());
-        packageDetailDto.setCreatedTime(this.getCreatedTime());
         packageDetailDto.setCreatedBy(this.getCreatedBy());
         return packageDetailDto;
     }

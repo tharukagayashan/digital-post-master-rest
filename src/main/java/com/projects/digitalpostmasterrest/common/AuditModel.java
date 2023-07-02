@@ -4,15 +4,27 @@ package com.projects.digitalpostmasterrest.common;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.Column;
+import javax.persistence.EntityListeners;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@EntityListeners({AuditingEntityListener.class})
 public class AuditModel {
-    private LocalDate createdDate = LocalDate.now();
-    private LocalTime createdTime = LocalTime.now();
+
+    @CreatedDate
+    @Column(name = "CREATED_DATE_TIME", updatable = false)
+    private LocalDateTime createdDate = LocalDateTime.now();
+    @CreatedBy
+    @Column(name = "CREATED_BY", updatable = false)
     private String createdBy = "Admin User";
+
 }
