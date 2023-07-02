@@ -34,4 +34,10 @@ public class PackageController{
         return response;
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<PackageDetailDto> updatePackage(@RequestBody PackageDetailDto packageDetailDto){
+        ResponseEntity response = packageService.updatePackage(packageDetailDto);
+        return response;
+    }
+
 }

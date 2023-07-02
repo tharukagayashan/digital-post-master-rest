@@ -15,12 +15,16 @@ import java.time.LocalDateTime;
 public class DeliveryTaskDto extends AuditModel {
 
     private Integer deliveryTaskId;
-    private Integer packageId;
-    private Integer agentId;
     private String pickupAddress;
     private String deliveryAddress;
     private String status;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+
+    private Integer packageId;
+    private Integer agentId;
+
+    private PackageDetailDto packageDetail;
+    private AgentDto agent;
 
 }

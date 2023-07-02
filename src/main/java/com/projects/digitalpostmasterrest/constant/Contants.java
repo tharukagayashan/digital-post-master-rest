@@ -6,4 +6,6 @@ public class Contants {
     public static final String RECEIVER_ADDRESS_EMPTY = "Receiver address cannot be null";
     public static final String PACKAGE_CREATE_ERROR = "Package creation failed";
     public static final String PACKAGE_LIST_EMPTY = "Package list empty";
+    public static final String PACKAGE_ID_NULL = "Package id cannot be null";
+    public static final String PACKAGE_NOT_FOUND = "Package not found";
 }
