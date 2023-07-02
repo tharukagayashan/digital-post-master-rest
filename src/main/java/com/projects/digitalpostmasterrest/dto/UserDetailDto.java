@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDetailsDto extends AuditModel {
+public class UserDetailDto extends AuditModel {
 
     private Integer userId;
     private String name;

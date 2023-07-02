@@ -32,7 +32,6 @@ public class DeliveryTask extends AuditModel {
     @Column(name = "END_TIME")
     private LocalDateTime endTime;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PACKAGE_ID", referencedColumnName = "PACKAGE_ID", nullable = false)
     private PackageDetail packageDetail;

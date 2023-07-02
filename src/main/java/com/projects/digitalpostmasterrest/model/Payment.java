@@ -30,6 +30,7 @@ public class Payment extends AuditModel {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID",referencedColumnName = "USER_ID",nullable = false)
     private UserDetail userDetail;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PACKAGE_ID",referencedColumnName = "PACKAGE_ID",nullable = false)
     private PackageDetail packageDetail;
