@@ -17,4 +17,8 @@ public class Contants {
     public static final String USER_CREATE_ERROR = "User creation failed";
     public static final String PACKAGE_CREATE_MAIL_SUBJECT = "Package status update";
     public static final String PACKAGE_CREATE_MAIL_BODY = "Hi, Your package created successfully";
+    public static final String USER_LIST_EMPTY = "User list empty";
+    public static final String USERNAME_EMPTY = "Username cannot be empty";
+    public static final String USER_ALREADY_EXIST = "User already exist for given username or email";
+    public static final String LOGIN_ERROR = "Username or password invalided";
 }

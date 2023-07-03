@@ -23,6 +23,8 @@ public class UserDetail extends AuditModel {
     private Integer userId;
     @Column(name = "NAME")
     private String name;
+    @Column(name = "USERNAME")
+    private String username;
     @Column(name = "EMAIL")
     private String email;
     @Column(name = "PASSWORD")
@@ -42,6 +44,7 @@ public class UserDetail extends AuditModel {
         userDetailDto.setContactNo(this.getContactNo());
         userDetailDto.setCreatedDate(this.getCreatedDate());
         userDetailDto.setCreatedBy(this.getCreatedBy());
+        userDetailDto.setUsername(this.getUsername());
         return userDetailDto;
     }
 }
