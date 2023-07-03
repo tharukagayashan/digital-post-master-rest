@@ -38,4 +38,28 @@ public class UserController {
         return response;
     }
 
+    @GetMapping("/get/{userId}")
+    public ResponseEntity<UserDetailDto> getUserById(@PathVariable Integer userId) {
+        ResponseEntity response = userService.getUserById(userId);
+        return response;
+    }
+
+    @GetMapping("/get/username/{username}")
+    public ResponseEntity<UserDetailDto> getUserByUsername(@PathVariable String username) {
+        ResponseEntity response = userService.getUserByUsername(username);
+        return response;
+    }
+
+    @DeleteMapping("/delete/{userId}")
+    public ResponseEntity<Integer> deleteUser(@PathVariable Integer userId) {
+        ResponseEntity response = userService.deleteUser(userId);
+        return response;
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<UserDetailDto> updateUser(@RequestBody UserDetailDto userDetailDto) {
+        ResponseEntity response = userService.updateUser(userDetailDto);
+        return response;
+    }
+
 }

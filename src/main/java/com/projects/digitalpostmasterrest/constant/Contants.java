@@ -21,4 +21,5 @@ public class Contants {
     public static final String USERNAME_EMPTY = "Username cannot be empty";
     public static final String USER_ALREADY_EXIST = "User already exist for given username or email";
     public static final String LOGIN_ERROR = "Username or password invalided";
+    public static final String USER_DELETE_ERROR = "User delete request failed";
 }

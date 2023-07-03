@@ -8,6 +8,7 @@ import com.projects.digitalpostmasterrest.dto.custom.LoginReqDto;
 import com.projects.digitalpostmasterrest.dto.custom.LoginResDto;
 import com.projects.digitalpostmasterrest.dto.custom.UserCreateReqDto;
 import com.projects.digitalpostmasterrest.error.ErrorAlert;
+import com.projects.digitalpostmasterrest.model.PackageDetail;
 import com.projects.digitalpostmasterrest.model.UserDetail;
 import com.projects.digitalpostmasterrest.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -124,6 +125,98 @@ public class UserServiceImpl implements UserService {
 
         } catch (Exception e) {
             log.error(e.getMessage());
+            throw new ErrorAlert(e.getMessage(), "400");
+        }
+    }
+
+    @Override
+    public ResponseEntity getUserById(Integer userId) {
+        try {
+            if (userId == null) {
+                throw new ErrorAlert(USER_ID_NULL, "400");
+            } else {
+                Optional<UserDetail> optUser = userDetailDao.findById(userId);
+                if (!optUser.isPresent()) {
+                    throw new ErrorAlert(USER_NOT_FOUND, "400");
+                } else {
+                    return ResponseEntity.ok(optUser.get().toDto());
+                }
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new ErrorAlert(e.getMessage(), "400");
+        }
+    }
+
+    @Override
+    public ResponseEntity getUserByUsername(String username) {
+        try {
+            if (username.isEmpty()) {
+                throw new ErrorAlert(USERNAME_EMPTY, "400");
+            } else {
+                Optional<UserDetail> optUser = userDetailDao.findByUsername(username);
+                if (!optUser.isPresent()) {
+                    throw new ErrorAlert(USER_NOT_FOUND, "400");
+                } else {
+                    return ResponseEntity.ok(optUser.get().toDto());
+                }
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new ErrorAlert(e.getMessage(), "400");
+        }
+    }
+
+    @Override
+    public ResponseEntity deleteUser(Integer userId) {
+        try {
+            if (userId == null) {
+                throw new ErrorAlert(USER_ID_NULL, "400");
+            } else {
+                Optional<UserDetail> optUser = userDetailDao.findById(userId);
+                if (!optUser.isPresent()) {
+                    throw new ErrorAlert(USER_NOT_FOUND, "400");
+                } else {
+                    userDetailDao.deleteById(userId);
+                    Optional<UserDetail> check = userDetailDao.findById(userId);
+                    if (!check.isPresent()) {
+                        return ResponseEntity.ok(userId);
+                    } else {
+                        throw new ErrorAlert(USER_DELETE_ERROR, "400");
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new ErrorAlert(e.getMessage(), "400");
+        }
+    }
+
+    @Override
+    public ResponseEntity updateUser(UserDetailDto userDetailDto) {
+        try {
+            if (userDetailDto.getUserId() == null) {
+                log.error(USER_ID_NULL);
+                throw new ErrorAlert(USER_ID_NULL, "400");
+            } else {
+                Optional<UserDetail> optUser = userDetailDao.findById(userDetailDto.getUserId());
+                if (!optUser.isPresent()) {
+                    throw new ErrorAlert(USER_NOT_FOUND, "400");
+                } else {
+                    UserDetail userDetail = optUser.get();
+                    userDetail.setName(userDetailDto.getName());
+                    userDetail.setUsername(userDetailDto.getUsername());
+                    userDetail.setEmail(userDetailDto.getEmail());
+                    userDetail.setPassword(userDetailDto.getPassword());
+                    userDetail.setAddress(userDetailDto.getAddress());
+                    userDetail.setContactNo(userDetailDto.getContactNo());
+
+                    userDetail = userDetailDao.save(userDetail);
+                    return ResponseEntity.ok(userDetail.toDto());
+                }
+            }
+        } catch (Exception e) {
+            log.info(e.getMessage());
             throw new ErrorAlert(e.getMessage(), "400");
         }
     }
