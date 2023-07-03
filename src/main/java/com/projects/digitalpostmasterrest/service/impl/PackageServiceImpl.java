@@ -79,7 +79,7 @@ public class PackageServiceImpl implements PackageService {
             newPackageDetail.setDimensions(dimensions);
             newPackageDetail.setWeight(packageCreateReqDto.getWeight());
             newPackageDetail.setInstructions(packageCreateReqDto.getInstructions());
-            newPackageDetail.setStatus(StatusEnum.NEW.toString());
+            newPackageDetail.setStatus(StatusEnum.NEW.name());
 
             newPackageDetail = packageDetailDao.save(newPackageDetail);
             MailReqDto mailReqDto = new MailReqDto();

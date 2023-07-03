@@ -21,4 +21,8 @@ public class Contants {
     public static final String USERNAME_EMPTY = "Username cannot be empty";
     public static final String USER_ALREADY_EXIST = "User already exist for given username or email";
     public static final String LOGIN_ERROR = "Username or password invalided";
+    public static final String USER_DELETE_ERROR = "User delete request failed";
+    public static final String AGENT_CREATE_ERROR = "Agent creation failed";
+    public static final String AGENT_LIST_EMPTY = "Agent list empty";
+    public static final String AGENT_ALREADY_EXIST = "Agent already exist for given userId";
 }
