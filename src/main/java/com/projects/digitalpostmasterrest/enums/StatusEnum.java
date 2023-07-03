@@ -1,6 +1,6 @@
 package com.projects.digitalpostmasterrest.enums;
 
-enum Status {
+public enum StatusEnum {
 
     ACTIVE,
     COMPLETED,
@@ -9,5 +9,6 @@ enum Status {
     PAID,
     PENDING,
     PICKUP,
-    SHIPPING;
+    SHIPPING,
+    NEW
 }

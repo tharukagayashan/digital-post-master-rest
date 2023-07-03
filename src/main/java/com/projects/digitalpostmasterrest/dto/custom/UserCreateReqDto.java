@@ -9,21 +9,15 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class PackageCreateReqDto {
-
+public class UserCreateReqDto {
     @NotNull
-    private Integer userId;
+    private String name;
     @NotNull
-    private String receiver;
+    private String email;
     @NotNull
-    private String receiverAddress;
+    private String password;
     @NotNull
-    private Float length;
+    private String address;
     @NotNull
-    private Float width;
-    @NotNull
-    private Float height;
-    @NotNull
-    private Float weight;
-    private String instructions;
+    private String contactNo;
 }

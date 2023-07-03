@@ -22,8 +22,6 @@ public class PackageDetail extends AuditModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "PACKAGE_ID")
     private Integer packageId;
-    @Column(name = "SENDER")
-    private String sender;
     @Column(name = "RECEIVER")
     private String receiver;
     @Column(name = "RECEIVER_ADDRESS")
@@ -34,16 +32,23 @@ public class PackageDetail extends AuditModel {
     private Float weight;
     @Column(name = "INSTRUCTIONS")
     private String instructions;
+    @Column(name = "STATUS")
+    private String status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID",referencedColumnName = "USER_ID",nullable = false)
+    private UserDetail userDetail;
 
     public PackageDetailDto toDto() {
         PackageDetailDto packageDetailDto = new PackageDetailDto();
         packageDetailDto.setPackageId(this.getPackageId());
-        packageDetailDto.setSender(this.getSender());
+        packageDetailDto.setUserId(this.getUserDetail().getUserId());
         packageDetailDto.setReceiver(this.getReceiver());
         packageDetailDto.setReceiverAddress(this.getReceiverAddress());
         packageDetailDto.setDimensions(this.getDimensions());
         packageDetailDto.setWeight(this.getWeight());
         packageDetailDto.setInstructions(this.getInstructions());
+        packageDetailDto.setStatus(this.getStatus());
         packageDetailDto.setCreatedDate(this.getCreatedDate());
         packageDetailDto.setCreatedBy(this.getCreatedBy());
         return packageDetailDto;
