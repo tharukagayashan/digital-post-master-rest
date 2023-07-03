@@ -20,6 +20,7 @@ public class UserDetailDto extends AuditModel {
     private String password;
     private String address;
     private String contactNo;
+    private String userType;
 
     public UserDetail toEntity() {
         UserDetail userDetail = new UserDetail();
@@ -32,6 +33,7 @@ public class UserDetailDto extends AuditModel {
         userDetail.setCreatedDate(this.getCreatedDate());
         userDetail.setCreatedBy(this.getCreatedBy());
         userDetail.setUsername(this.getUsername());
+        userDetail.setUserType(this.getUserType());
         return userDetail;
     }
 

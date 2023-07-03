@@ -7,6 +7,7 @@ import com.projects.digitalpostmasterrest.dto.UserDetailDto;
 import com.projects.digitalpostmasterrest.dto.custom.LoginReqDto;
 import com.projects.digitalpostmasterrest.dto.custom.LoginResDto;
 import com.projects.digitalpostmasterrest.dto.custom.UserCreateReqDto;
+import com.projects.digitalpostmasterrest.enums.UserTypeEnum;
 import com.projects.digitalpostmasterrest.error.ErrorAlert;
 import com.projects.digitalpostmasterrest.model.PackageDetail;
 import com.projects.digitalpostmasterrest.model.UserDetail;
@@ -58,6 +59,7 @@ public class UserServiceImpl implements UserService {
             userDetail.setPassword(userCreateReqDto.getPassword());
             userDetail.setAddress(userCreateReqDto.getAddress());
             userDetail.setContactNo(contactNo);
+            userDetail.setUserType(UserTypeEnum.USER.name());
 
             PasswordUtils passwordUtils = new PasswordUtils();
             String encodedPassword = passwordUtils.encodePassword(userDetail.getPassword());

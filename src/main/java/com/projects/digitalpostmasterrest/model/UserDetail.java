@@ -34,6 +34,9 @@ public class UserDetail extends AuditModel {
     @Column(name = "CONTACT_NO")
     private String contactNo;
 
+    @Column(name = "USER_TYPE")
+    private String userType;
+
     public UserDetailDto toDto() {
         UserDetailDto userDetailDto = new UserDetailDto();
         userDetailDto.setUserId(this.getUserId());
@@ -45,6 +48,7 @@ public class UserDetail extends AuditModel {
         userDetailDto.setCreatedDate(this.getCreatedDate());
         userDetailDto.setCreatedBy(this.getCreatedBy());
         userDetailDto.setUsername(this.getUsername());
+        userDetailDto.setUserType(this.getUserType());
         return userDetailDto;
     }
 }
