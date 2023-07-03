@@ -1,6 +1,7 @@
 package com.projects.digitalpostmasterrest.model;
 
 import com.projects.digitalpostmasterrest.common.AuditModel;
+import com.projects.digitalpostmasterrest.dto.UserDetailDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,4 +32,16 @@ public class UserDetail extends AuditModel {
     @Column(name = "CONTACT_NO")
     private String contactNo;
 
+    public UserDetailDto toDto() {
+        UserDetailDto userDetailDto = new UserDetailDto();
+        userDetailDto.setUserId(this.getUserId());
+        userDetailDto.setName(this.getName());
+        userDetailDto.setEmail(this.getEmail());
+        userDetailDto.setPassword(this.getPassword());
+        userDetailDto.setAddress(this.getAddress());
+        userDetailDto.setContactNo(this.getContactNo());
+        userDetailDto.setCreatedDate(this.getCreatedDate());
+        userDetailDto.setCreatedBy(this.getCreatedBy());
+        return userDetailDto;
+    }
 }
