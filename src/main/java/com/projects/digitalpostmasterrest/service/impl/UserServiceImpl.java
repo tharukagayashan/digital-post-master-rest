@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.projects.digitalpostmasterrest.constant.Contants.*;
+import static com.projects.digitalpostmasterrest.constant.Constants.*;
 
 @Slf4j
 @Service
