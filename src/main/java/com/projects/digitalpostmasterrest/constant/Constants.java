@@ -1,6 +1,6 @@
 package com.projects.digitalpostmasterrest.constant;
 
-public class Contants {
+public class Constants {
     public static final String RECEIVER_EMPTY = "Receiver cannot be empty";
     public static final String RECEIVER_ADDRESS_EMPTY = "Receiver address cannot be null";
     public static final String PACKAGE_CREATE_ERROR = "Package creation failed";
@@ -10,8 +10,6 @@ public class Contants {
     public static final String PACKAGE_DELETE_ERROR = "Package delete request failed";
     public static final String USER_ID_NULL = "User id cannot be empty";
     public static final String USER_NOT_FOUND = "User not found";
-
-
     public static final String CONTACT_NO_EMPTY = "Contact no cannot be empty";
     public static final String EMAIL_ADDRESS_EMPTY = "Email address cannot be empty";
     public static final String USER_CREATE_ERROR = "User creation failed";
@@ -25,4 +23,7 @@ public class Contants {
     public static final String AGENT_CREATE_ERROR = "Agent creation failed";
     public static final String AGENT_LIST_EMPTY = "Agent list empty";
     public static final String AGENT_ALREADY_EXIST = "Agent already exist for given userId";
+    public static final String AGENT_ID_NULL = "Agent id null";
+    public static final String AGENT_NOT_FOUND = "Agent not found";
+    public static final String AGENT_DELETE_ERROR = "Agent delete request failed";
 }

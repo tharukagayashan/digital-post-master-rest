@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.projects.digitalpostmasterrest.constant.Contants.*;
+import static com.projects.digitalpostmasterrest.constant.Constants.*;
 
 @Slf4j
 @Service
@@ -35,8 +35,8 @@ public class AgentServiceImpl implements AgentService {
         try {
 
             Optional<Agent> optAgent = agentDao.findByUserDetailUserId(agentCreateReqDto.getUserId());
-            if (optAgent.isPresent()){
-                throw new ErrorAlert(AGENT_ALREADY_EXIST,"400");
+            if (optAgent.isPresent()) {
+                throw new ErrorAlert(AGENT_ALREADY_EXIST, "400");
             }
 
             Optional<UserDetail> optUser = userDao.findById(agentCreateReqDto.getUserId());
@@ -78,6 +78,84 @@ public class AgentServiceImpl implements AgentService {
                 agentDtoList.add(a.toDto());
             }
             return ResponseEntity.ok(agentDtoList);
+        }
+    }
+
+    @Override
+    public ResponseEntity deleteAgent(Integer agentId) {
+        try {
+            if (agentId == null) {
+                throw new ErrorAlert(AGENT_ID_NULL, "400");
+            } else {
+                Optional<Agent> optAgent = agentDao.findById(agentId);
+                if (!optAgent.isPresent()) {
+                    throw new ErrorAlert(AGENT_NOT_FOUND, "400");
+                } else {
+                    agentDao.deleteById(agentId);
+                    Optional<Agent> check = agentDao.findById(agentId);
+                    if (!check.isPresent()) {
+                        return ResponseEntity.ok(agentId);
+                    } else {
+                        throw new ErrorAlert(AGENT_DELETE_ERROR, "400");
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new ErrorAlert(e.getMessage(), "400");
+        }
+    }
+
+    @Override
+    public ResponseEntity updateAgent(AgentDto agentDto) {
+        try {
+            if (agentDto.getAgentId() == null) {
+                log.error(AGENT_ID_NULL);
+                throw new ErrorAlert(AGENT_ID_NULL, "400");
+            } else {
+                if (agentDto.getUserId() == null) {
+                    throw new ErrorAlert(USER_ID_NULL, "400");
+                }
+                Optional<UserDetail> optUser = userDao.findById(agentDto.getUserId());
+                if (!optUser.isPresent()) {
+                    throw new ErrorAlert(USER_NOT_FOUND, "400");
+                }
+                Optional<Agent> optAgent = agentDao.findById(agentDto.getAgentId());
+                if (!optAgent.isPresent()) {
+                    log.error(AGENT_NOT_FOUND);
+                    throw new ErrorAlert(AGENT_NOT_FOUND, "400");
+                } else {
+                    Agent agent = optAgent.get();
+                    agent.setName(agentDto.getName());
+                    agent.setContactNo(agentDto.getContactNo());
+                    agent.setCurrentLocation(agentDto.getCurrentLocation());
+                    agent.setUserDetail(optUser.get());
+                    agent = agentDao.save(agent);
+                    return ResponseEntity.ok(agent.toDto());
+                }
+            }
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            throw new ErrorAlert(e.getMessage(), "400");
+        }
+    }
+
+    @Override
+    public ResponseEntity getAgentById(Integer agentId) {
+        try {
+            if (agentId == null) {
+                throw new ErrorAlert(AGENT_ID_NULL, "400");
+            } else {
+                Optional<Agent> optAgent = agentDao.findById(agentId);
+                if (!optAgent.isPresent()) {
+                    throw new ErrorAlert(AGENT_NOT_FOUND, "400");
+                } else {
+                    return ResponseEntity.ok(optAgent.get().toDto());
+                }
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new ErrorAlert(e.getMessage(), "400");
         }
     }
 }
