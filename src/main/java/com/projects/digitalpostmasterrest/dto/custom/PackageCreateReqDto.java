@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 @AllArgsConstructor
@@ -17,13 +18,13 @@ public class PackageCreateReqDto {
     private String receiver;
     @NotNull
     private String receiverAddress;
-    @NotNull
+    @DecimalMin(value = "0")
     private Float length;
-    @NotNull
+    @DecimalMin(value = "0")
     private Float width;
-    @NotNull
+    @DecimalMin(value = "0")
     private Float height;
-    @NotNull
+    @DecimalMin(value = "")
     private Float weight;
     private String instructions;
 }

@@ -1,8 +1,6 @@
 package com.projects.digitalpostmasterrest.rest;
 
-import com.projects.digitalpostmasterrest.dao.AgentDao;
 import com.projects.digitalpostmasterrest.dto.AgentDto;
-import com.projects.digitalpostmasterrest.dto.PackageDetailDto;
 import com.projects.digitalpostmasterrest.dto.custom.AgentCreateReqDto;
 import com.projects.digitalpostmasterrest.service.AgentService;
 import org.springframework.http.ResponseEntity;

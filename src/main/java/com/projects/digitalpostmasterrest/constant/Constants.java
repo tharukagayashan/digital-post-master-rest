@@ -26,4 +26,5 @@ public class Constants {
     public static final String AGENT_ID_NULL = "Agent id null";
     public static final String AGENT_NOT_FOUND = "Agent not found";
     public static final String AGENT_DELETE_ERROR = "Agent delete request failed";
+    public static final String PAYMENT_LIST_EMPTY = "Payment list empty";
 }
