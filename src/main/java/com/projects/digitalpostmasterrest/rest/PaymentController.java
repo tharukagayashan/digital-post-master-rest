@@ -1,6 +1,5 @@
 package com.projects.digitalpostmasterrest.rest;
 
-import com.projects.digitalpostmasterrest.dto.AgentDto;
 import com.projects.digitalpostmasterrest.dto.PaymentDto;
 import com.projects.digitalpostmasterrest.dto.custom.PaymentCreateReqDto;
 import com.projects.digitalpostmasterrest.service.PaymentService;

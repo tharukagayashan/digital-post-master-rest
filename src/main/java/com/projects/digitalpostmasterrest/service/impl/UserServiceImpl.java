@@ -9,7 +9,6 @@ import com.projects.digitalpostmasterrest.dto.custom.LoginResDto;
 import com.projects.digitalpostmasterrest.dto.custom.UserCreateReqDto;
 import com.projects.digitalpostmasterrest.enums.UserTypeEnum;
 import com.projects.digitalpostmasterrest.error.ErrorAlert;
-import com.projects.digitalpostmasterrest.model.PackageDetail;
 import com.projects.digitalpostmasterrest.model.UserDetail;
 import com.projects.digitalpostmasterrest.service.UserService;
 import lombok.extern.slf4j.Slf4j;

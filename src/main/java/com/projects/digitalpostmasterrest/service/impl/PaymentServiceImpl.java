@@ -25,7 +25,6 @@ import static com.projects.digitalpostmasterrest.constant.Constants.*;
 @Slf4j
 @Service
 public class PaymentServiceImpl implements PaymentService {
-    private static final String PAYMENT_CREATE_ERROR = "Payment create request failed";
     private final PackageDetailDao packageDao;
     private final UserDetailDao userDao;
     private final PaymentDao paymentDao;
