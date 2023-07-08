@@ -29,7 +29,7 @@ public class AgentController {
         return response;
     }
 
-    @GetMapping("/delete/{agentId}")
+    @DeleteMapping("/delete/{agentId}")
     public ResponseEntity<Integer> deleteAgent(@PathVariable Integer agentId) {
         ResponseEntity response = agentService.deleteAgent(agentId);
         return response;

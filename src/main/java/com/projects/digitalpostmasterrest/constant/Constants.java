@@ -27,6 +27,16 @@ public class Constants {
     public static final String AGENT_NOT_FOUND = "Agent not found";
     public static final String AGENT_DELETE_ERROR = "Agent delete request failed";
     public static final String PAYMENT_LIST_EMPTY = "Payment list empty";
-
     public static final String PAYMENT_CREATE_ERROR = "Payment create request failed";
+    public static final String PAYMENT_CREATE_MAIL_SUBJECT = "Payment status update";
+    public static final String PAYMENT_CREATE_MAIL_BODY = "Your payment is done. Thank you for join us";
+    public static final String DELIVERY_TASK_CREATE_ERROR = "Delivery task creation failed";
+    public static final String DELIVERY_TASK_LIST_EMPTY = "Delivery task list empty";
+    public static final String DELIVERY_TASK_ID_NULL = "Delivery task ID null";
+    public static final String DELIVERY_TASK_NOT_FOUND = "Delivery task not found";
+    public static final String DELIVERY_TASK_UPDATED = "Delivery task updated";
+    public static final String DELIVERY_TASK_DELETE_ERROR = "Delivery task delete request failed";
+    public static final String DELIVERY_TASK_STATUS_UPDATED = "Delivery task status updated";
+    public static final String PACKAGE_DELIVERY_TASK_CREATED_MAIL_SUBJECT = "Package delivery task created";
+    public static final String PAYMENT_AMOUNT_ERROR = "Payment amount error";
 }

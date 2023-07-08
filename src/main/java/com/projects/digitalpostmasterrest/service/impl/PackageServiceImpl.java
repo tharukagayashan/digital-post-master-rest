@@ -1,7 +1,9 @@
 package com.projects.digitalpostmasterrest.service.impl;
 
+import com.projects.digitalpostmasterrest.common.CommonMethods;
 import com.projects.digitalpostmasterrest.common.MailService;
 import com.projects.digitalpostmasterrest.dao.PackageDetailDao;
+import com.projects.digitalpostmasterrest.dao.PaymentDao;
 import com.projects.digitalpostmasterrest.dao.UserDetailDao;
 import com.projects.digitalpostmasterrest.dto.PackageDetailDto;
 import com.projects.digitalpostmasterrest.dto.custom.MailReqDto;
@@ -9,6 +11,7 @@ import com.projects.digitalpostmasterrest.dto.custom.PackageCreateReqDto;
 import com.projects.digitalpostmasterrest.enums.StatusEnum;
 import com.projects.digitalpostmasterrest.error.ErrorAlert;
 import com.projects.digitalpostmasterrest.model.PackageDetail;
+import com.projects.digitalpostmasterrest.model.Payment;
 import com.projects.digitalpostmasterrest.model.UserDetail;
 import com.projects.digitalpostmasterrest.service.PackageService;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +20,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +31,7 @@ import static com.projects.digitalpostmasterrest.constant.Constants.*;
 @Slf4j
 @Service
 public class PackageServiceImpl implements PackageService {
+    private final PaymentDao paymentDao;
     private final UserDetailDao userDetailDao;
 
     private final PackageDetailDao packageDetailDao;
@@ -34,24 +39,36 @@ public class PackageServiceImpl implements PackageService {
     private final MailService mailService;
 
     public PackageServiceImpl(PackageDetailDao packageDetailDao,
-                              UserDetailDao userDetailDao, JavaMailSender mailSender, MailService mailService) {
+                              UserDetailDao userDetailDao, JavaMailSender mailSender, MailService mailService,
+                              PaymentDao paymentDao) {
         this.packageDetailDao = packageDetailDao;
         this.userDetailDao = userDetailDao;
         this.mailSender = mailSender;
         this.mailService = mailService;
+        this.paymentDao = paymentDao;
     }
 
     @Transactional
     @Override
     public ResponseEntity createPackage(PackageCreateReqDto packageCreateReqDto) {
         try {
-
+            Payment payment = null;
             Integer userId = packageCreateReqDto.getUserId();
             String receiver = packageCreateReqDto.getReceiver();
             String receiverAddress = packageCreateReqDto.getReceiverAddress();
             Float length = packageCreateReqDto.getLength();
             Float width = packageCreateReqDto.getWidth();
             Float height = packageCreateReqDto.getHeight();
+
+            if (length == null) {
+                length = new Float(0);
+            }
+            if (width == null) {
+                width = new Float(0);
+            }
+            if (height == null) {
+                width = new Float(0);
+            }
 
             String dimensions = "L:" + length + " W:" + width + " H:" + height;
 
@@ -82,13 +99,34 @@ public class PackageServiceImpl implements PackageService {
             newPackageDetail.setStatus(StatusEnum.NEW.name());
 
             newPackageDetail = packageDetailDao.save(newPackageDetail);
+
             MailReqDto mailReqDto = new MailReqDto();
             mailReqDto.setTo(userDetail.getEmail());
             mailReqDto.setSubject(PACKAGE_CREATE_MAIL_SUBJECT);
             mailReqDto.setBody(PACKAGE_CREATE_MAIL_BODY);
-            mailService.sendMail(mailSender,mailReqDto);
+            mailService.sendMail(mailSender, mailReqDto);
 
             if (newPackageDetail != null) {
+
+                //Generate payment record
+                CommonMethods commonMethods = new CommonMethods();
+                Float paymentAmount = commonMethods.priceCalculator(newPackageDetail.getWeight());
+                if (paymentAmount == 0) {
+                    throw new ErrorAlert(PAYMENT_AMOUNT_ERROR, "400");
+                } else {
+                    payment = new Payment();
+                    payment.setAmount(paymentAmount);
+                    payment.setStatus(StatusEnum.PENDING.name());
+                    payment.setTime(LocalDateTime.now());
+                    payment.setUserDetail(userDetail);
+                    payment.setPackageDetail(newPackageDetail);
+
+                    payment = paymentDao.save(payment);
+                    if (payment == null) {
+                        throw new ErrorAlert(PACKAGE_CREATE_ERROR, "400");
+                    }
+                    log.info("Payment record created");
+                }
                 return ResponseEntity.ok(newPackageDetail.toDto());
             } else {
                 throw new ErrorAlert(PACKAGE_CREATE_ERROR, "400");

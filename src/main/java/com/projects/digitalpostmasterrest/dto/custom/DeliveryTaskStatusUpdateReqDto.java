@@ -4,16 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+public class DeliveryTaskStatusUpdateReqDto {
 
-public class PaymentCreateReqDto {
-    private Float amount;
     @NotNull
-    private Integer userId;
+    private Integer deliveryTaskId;
     @NotNull
-    private Integer packageId;
+    @NotEmpty
+    private String status;
 }

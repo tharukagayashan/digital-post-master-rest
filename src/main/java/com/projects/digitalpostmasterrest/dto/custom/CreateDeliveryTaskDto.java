@@ -9,11 +9,13 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-
-public class PaymentCreateReqDto {
-    private Float amount;
+public class CreateDeliveryTaskDto {
     @NotNull
-    private Integer userId;
+    private String pickupAddress;
+    @NotNull
+    private String deliveryAddress;
     @NotNull
     private Integer packageId;
+    @NotNull
+    private Integer agentId;
 }
