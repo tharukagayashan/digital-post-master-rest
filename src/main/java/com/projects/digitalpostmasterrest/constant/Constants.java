@@ -29,4 +29,6 @@ public class Constants {
     public static final String PAYMENT_LIST_EMPTY = "Payment list empty";
 
     public static final String PAYMENT_CREATE_ERROR = "Payment create request failed";
+    public static final String PAYMENT_CREATE_MAIL_SUBJECT = "Payment status update";
+    public static final String PAYMENT_CREATE_MAIL_BODY = "Your payment is done. Thank you for join us";
 }

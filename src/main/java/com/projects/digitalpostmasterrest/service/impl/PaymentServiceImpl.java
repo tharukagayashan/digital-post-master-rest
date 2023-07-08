@@ -1,9 +1,11 @@
 package com.projects.digitalpostmasterrest.service.impl;
 
+import com.projects.digitalpostmasterrest.common.MailService;
 import com.projects.digitalpostmasterrest.dao.PackageDetailDao;
 import com.projects.digitalpostmasterrest.dao.PaymentDao;
 import com.projects.digitalpostmasterrest.dao.UserDetailDao;
 import com.projects.digitalpostmasterrest.dto.PaymentDto;
+import com.projects.digitalpostmasterrest.dto.custom.MailReqDto;
 import com.projects.digitalpostmasterrest.dto.custom.PaymentCreateReqDto;
 import com.projects.digitalpostmasterrest.enums.StatusEnum;
 import com.projects.digitalpostmasterrest.error.ErrorAlert;
@@ -13,6 +15,7 @@ import com.projects.digitalpostmasterrest.model.UserDetail;
 import com.projects.digitalpostmasterrest.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -28,13 +31,17 @@ public class PaymentServiceImpl implements PaymentService {
     private final PackageDetailDao packageDao;
     private final UserDetailDao userDao;
     private final PaymentDao paymentDao;
+    private final MailService mailService;
+    private final JavaMailSender mailSender;
 
     public PaymentServiceImpl(PaymentDao paymentDao,
                               UserDetailDao userDao,
-                              PackageDetailDao packageDao) {
+                              PackageDetailDao packageDao, MailService mailService, JavaMailSender mailSender) {
         this.paymentDao = paymentDao;
         this.userDao = userDao;
         this.packageDao = packageDao;
+        this.mailService = mailService;
+        this.mailSender = mailSender;
     }
 
     @Override
@@ -64,6 +71,12 @@ public class PaymentServiceImpl implements PaymentService {
             payment.setUserDetail(user);
             payment.setPackageDetail(packageDetail);
 
+            MailReqDto mailReqDto = new MailReqDto();
+            mailReqDto.setTo(user.getEmail());
+            mailReqDto.setSubject(PAYMENT_CREATE_MAIL_SUBJECT);
+            mailReqDto.setBody(PAYMENT_CREATE_MAIL_BODY);
+            mailService.sendMail(mailSender,mailReqDto);
+
             payment = paymentDao.save(payment);
             if (payment == null) {
                 log.error(PAYMENT_CREATE_ERROR);
@@ -71,7 +84,6 @@ public class PaymentServiceImpl implements PaymentService {
             } else {
                 return ResponseEntity.ok(payment.toDto());
             }
-
         } catch (Exception e) {
             log.info(e.getMessage());
             throw new ErrorAlert(e.getMessage(), "400");
