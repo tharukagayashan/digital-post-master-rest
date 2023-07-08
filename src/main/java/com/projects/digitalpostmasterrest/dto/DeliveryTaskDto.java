@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter
@@ -20,11 +21,9 @@ public class DeliveryTaskDto extends AuditModel {
     private String status;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private String referenceNo;
 
     private Integer packageId;
     private Integer agentId;
-
-    private PackageDetailDto packageDetail;
-    private AgentDto agent;
 
 }

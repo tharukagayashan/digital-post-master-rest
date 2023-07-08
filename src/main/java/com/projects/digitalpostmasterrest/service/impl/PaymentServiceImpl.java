@@ -64,6 +64,10 @@ public class PaymentServiceImpl implements PaymentService {
                 packageDetail = optPackage.get();
             }
 
+            if (paymentCreateReqDto.getAmount() == null || paymentCreateReqDto.getAmount() <= 0){
+                throw new ErrorAlert(PAYMENT_AMOUNT_ERROR,"400");
+            }
+
             Payment payment = new Payment();
             payment.setAmount(paymentCreateReqDto.getAmount());
             payment.setStatus(StatusEnum.NEW.name());

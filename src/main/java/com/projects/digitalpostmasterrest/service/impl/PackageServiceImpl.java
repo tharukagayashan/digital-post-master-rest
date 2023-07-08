@@ -53,6 +53,16 @@ public class PackageServiceImpl implements PackageService {
             Float width = packageCreateReqDto.getWidth();
             Float height = packageCreateReqDto.getHeight();
 
+            if (length == null) {
+                length = new Float(0);
+            }
+            if (width == null) {
+                width = new Float(0);
+            }
+            if (height == null) {
+                width = new Float(0);
+            }
+
             String dimensions = "L:" + length + " W:" + width + " H:" + height;
 
             if (userId == null) {
@@ -86,7 +96,7 @@ public class PackageServiceImpl implements PackageService {
             mailReqDto.setTo(userDetail.getEmail());
             mailReqDto.setSubject(PACKAGE_CREATE_MAIL_SUBJECT);
             mailReqDto.setBody(PACKAGE_CREATE_MAIL_BODY);
-            mailService.sendMail(mailSender,mailReqDto);
+            mailService.sendMail(mailSender, mailReqDto);
 
             if (newPackageDetail != null) {
                 return ResponseEntity.ok(newPackageDetail.toDto());

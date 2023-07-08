@@ -1,5 +1,7 @@
 package com.projects.digitalpostmasterrest.enums;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+
 public enum StatusEnum {
 
     ACTIVE,
@@ -8,7 +10,7 @@ public enum StatusEnum {
     FAILED,
     PAID,
     PENDING,
-    PICKUP,
-    SHIPPING,
-    NEW
+    PICKUPED,
+    SHIPPED,
+    NEW;
 }

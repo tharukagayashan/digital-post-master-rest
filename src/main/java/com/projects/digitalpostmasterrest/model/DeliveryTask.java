@@ -1,6 +1,7 @@
 package com.projects.digitalpostmasterrest.model;
 
 import com.projects.digitalpostmasterrest.common.AuditModel;
+import com.projects.digitalpostmasterrest.dto.DeliveryTaskDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,8 @@ public class DeliveryTask extends AuditModel {
     private LocalDateTime startTime;
     @Column(name = "END_TIME")
     private LocalDateTime endTime;
+    @Column(name = "REF_NO")
+    private String referenceNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PACKAGE_ID", referencedColumnName = "PACKAGE_ID", nullable = false)
@@ -40,4 +43,17 @@ public class DeliveryTask extends AuditModel {
     @JoinColumn(name = "AGENT_ID", referencedColumnName = "AGENT_ID", nullable = false)
     private Agent agent;
 
+    public DeliveryTaskDto toDto() {
+        DeliveryTaskDto deliveryTaskDto = new DeliveryTaskDto();
+        deliveryTaskDto.setDeliveryTaskId(this.getDeliveryTaskId());
+        deliveryTaskDto.setPickupAddress(this.getPickupAddress());
+        deliveryTaskDto.setDeliveryAddress(this.getDeliveryAddress());
+        deliveryTaskDto.setStatus(this.getStatus());
+        deliveryTaskDto.setStartTime(this.getStartTime());
+        deliveryTaskDto.setEndTime(this.getEndTime());
+        deliveryTaskDto.setPackageId(this.getPackageDetail().getPackageId());
+        deliveryTaskDto.setAgentId(this.getAgent().getAgentId());
+        deliveryTaskDto.setReferenceNo(this.getReferenceNo());
+        return deliveryTaskDto;
+    }
 }
