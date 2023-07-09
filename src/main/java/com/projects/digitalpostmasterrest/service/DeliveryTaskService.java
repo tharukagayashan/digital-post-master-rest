@@ -17,4 +17,6 @@ public interface DeliveryTaskService {
     ResponseEntity deleteDeliveryTask(Integer deliveryTaskId);
 
     ResponseEntity updateDeliveryTaskStatus(DeliveryTaskStatusUpdateReqDto deliveryTaskStatusUpdateReqDto);
+
+    ResponseEntity getDeliveryTaskStatusView();
 }

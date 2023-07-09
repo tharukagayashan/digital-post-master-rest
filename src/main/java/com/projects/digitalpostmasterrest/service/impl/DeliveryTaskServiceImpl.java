@@ -7,6 +7,7 @@ import com.projects.digitalpostmasterrest.dao.PackageDetailDao;
 import com.projects.digitalpostmasterrest.dto.DeliveryTaskDto;
 import com.projects.digitalpostmasterrest.dto.custom.CreateDeliveryTaskDto;
 import com.projects.digitalpostmasterrest.dto.custom.DeliveryTaskStatusUpdateReqDto;
+import com.projects.digitalpostmasterrest.dto.custom.DeliveryTaskStatusViewDto;
 import com.projects.digitalpostmasterrest.dto.custom.MailReqDto;
 import com.projects.digitalpostmasterrest.enums.StatusEnum;
 import com.projects.digitalpostmasterrest.error.ErrorAlert;
@@ -86,7 +87,7 @@ public class DeliveryTaskServiceImpl implements DeliveryTaskService {
                 userMail.setSubject(PACKAGE_DELIVERY_TASK_CREATED_MAIL_SUBJECT);
                 userMail.setBody("Your package reference no is : " + deliveryTask.getReferenceNo());
                 mailService.sendMail(mailSender, userMail);
-                log.info("User mail : {}", userMail.getTo() );
+                log.info("User mail : {}", userMail.getTo());
                 log.info("User mail send...");
 
                 MailReqDto agentMail = new MailReqDto();
@@ -94,7 +95,7 @@ public class DeliveryTaskServiceImpl implements DeliveryTaskService {
                 agentMail.setSubject(PACKAGE_DELIVERY_TASK_CREATED_MAIL_SUBJECT);
                 agentMail.setBody("You have been assigned a new package delivery activity : " + deliveryTask.getReferenceNo());
                 mailService.sendMail(mailSender, agentMail);
-                log.info("Agent mail : {}", agentMail.getTo() );
+                log.info("Agent mail : {}", agentMail.getTo());
                 log.info("Agent mail send...");
                 return ResponseEntity.ok(deliveryTask.toDto());
             }
@@ -259,6 +260,38 @@ public class DeliveryTaskServiceImpl implements DeliveryTaskService {
                     log.info(DELIVERY_TASK_STATUS_UPDATED, "400");
                     return ResponseEntity.ok(deliveryTask.toDto());
                 }
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new ErrorAlert(e.getMessage(), "400");
+        }
+    }
+
+    @Override
+    public ResponseEntity getDeliveryTaskStatusView() {
+        try {
+            List<DeliveryTask> deliveryTaskList = deliveryTaskDao.findAll();
+            if (deliveryTaskList.isEmpty()) {
+                throw new ErrorAlert(DELIVERY_TASK_NOT_FOUND, "400");
+            } else {
+                List<DeliveryTaskStatusViewDto> statusViewList = new ArrayList<>();
+                StatusEnum[] statusList = StatusEnum.values();
+                for (StatusEnum status : statusList) {
+                    Integer count = 0;
+                    DeliveryTaskStatusViewDto statusViewDto = new DeliveryTaskStatusViewDto();
+                    List<DeliveryTaskDto> deliveryTasks = new ArrayList<>();
+                    for (DeliveryTask d : deliveryTaskList) {
+                        if (status.name().equalsIgnoreCase(d.getStatus())) {
+                            count = count + 1;
+                            deliveryTasks.add(d.toDto());
+                        }
+                    }
+                    statusViewDto.setTaskList(deliveryTasks);
+                    statusViewDto.setCount(count);
+                    statusViewDto.setStatus(status.name());
+                    statusViewList.add(statusViewDto);
+                }
+                return ResponseEntity.ok(statusViewList);
             }
         } catch (Exception e) {
             log.error(e.getMessage());

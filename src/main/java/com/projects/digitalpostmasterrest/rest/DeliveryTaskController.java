@@ -3,6 +3,7 @@ package com.projects.digitalpostmasterrest.rest;
 import com.projects.digitalpostmasterrest.dto.DeliveryTaskDto;
 import com.projects.digitalpostmasterrest.dto.custom.CreateDeliveryTaskDto;
 import com.projects.digitalpostmasterrest.dto.custom.DeliveryTaskStatusUpdateReqDto;
+import com.projects.digitalpostmasterrest.dto.custom.DeliveryTaskStatusViewDto;
 import com.projects.digitalpostmasterrest.service.DeliveryTaskService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +50,12 @@ public class DeliveryTaskController {
     @PutMapping("/status-update")
     public ResponseEntity<DeliveryTaskDto> updateDeliveryTaskStatus(@RequestBody DeliveryTaskStatusUpdateReqDto deliveryTaskStatusUpdateReqDto){
         ResponseEntity response = deliveryTaskService.updateDeliveryTaskStatus(deliveryTaskStatusUpdateReqDto);
+        return response;
+    }
+
+    @GetMapping("/get/status-view")
+    public ResponseEntity<List<DeliveryTaskStatusViewDto>> getDeliveryTaskStatusView(){
+        ResponseEntity response = deliveryTaskService.getDeliveryTaskStatusView();
         return response;
     }
 

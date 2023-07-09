@@ -39,4 +39,6 @@ public class Constants {
     public static final String DELIVERY_TASK_STATUS_UPDATED = "Delivery task status updated";
     public static final String PACKAGE_DELIVERY_TASK_CREATED_MAIL_SUBJECT = "Package delivery task created";
     public static final String PAYMENT_AMOUNT_ERROR = "Payment amount error";
+    public static final String PAYMENT_NOT_FOUND = "Payment not found";
+    public static final String PAYMENT_ID_NULL = "Payment id null";
 }

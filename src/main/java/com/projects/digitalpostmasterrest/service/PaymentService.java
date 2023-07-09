@@ -6,4 +6,6 @@ import org.springframework.http.ResponseEntity;
 public interface PaymentService {
     ResponseEntity createPayment(PaymentCreateReqDto paymentCreateReqDto);
     ResponseEntity getAllPayments();
+
+    ResponseEntity approvePayment(Integer paymentId);
 }
