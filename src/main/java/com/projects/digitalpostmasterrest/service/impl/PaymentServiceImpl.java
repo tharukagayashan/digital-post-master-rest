@@ -64,8 +64,8 @@ public class PaymentServiceImpl implements PaymentService {
                 packageDetail = optPackage.get();
             }
 
-            if (paymentCreateReqDto.getAmount() == null || paymentCreateReqDto.getAmount() <= 0){
-                throw new ErrorAlert(PAYMENT_AMOUNT_ERROR,"400");
+            if (paymentCreateReqDto.getAmount() == null || paymentCreateReqDto.getAmount() <= 0) {
+                throw new ErrorAlert(PAYMENT_AMOUNT_ERROR, "400");
             }
 
             Payment payment = new Payment();
@@ -79,7 +79,7 @@ public class PaymentServiceImpl implements PaymentService {
             mailReqDto.setTo(user.getEmail());
             mailReqDto.setSubject(PAYMENT_CREATE_MAIL_SUBJECT);
             mailReqDto.setBody(PAYMENT_CREATE_MAIL_BODY);
-            mailService.sendMail(mailSender,mailReqDto);
+            mailService.sendMail(mailSender, mailReqDto);
 
             payment = paymentDao.save(payment);
             if (payment == null) {
@@ -106,6 +106,28 @@ public class PaymentServiceImpl implements PaymentService {
                     paymentDtoList.add(p.toDto());
                 }
                 return ResponseEntity.ok(paymentDtoList);
+            }
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            throw new ErrorAlert(e.getMessage(), "400");
+        }
+    }
+
+    @Override
+    public ResponseEntity approvePayment(Integer paymentId) {
+        try {
+            if (paymentId == null) {
+                throw new ErrorAlert(PAYMENT_ID_NULL, "400");
+            } else {
+                Optional<Payment> optPayment = paymentDao.findById(paymentId);
+                if (!optPayment.isPresent()) {
+                    throw new ErrorAlert(PAYMENT_NOT_FOUND, "400");
+                } else {
+                    Payment payment = optPayment.get();
+                    payment.setStatus(StatusEnum.APPROVE.name());
+                    payment = paymentDao.save(payment);
+                    return ResponseEntity.ok(payment.toDto());
+                }
             }
         } catch (Exception e) {
             log.info(e.getMessage());

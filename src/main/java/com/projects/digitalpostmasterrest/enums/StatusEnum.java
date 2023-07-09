@@ -12,5 +12,6 @@ public enum StatusEnum {
     PENDING,
     PICKUPED,
     SHIPPED,
-    NEW;
+    NEW,
+    APPROVE,
 }

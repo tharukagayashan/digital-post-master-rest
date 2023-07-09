@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/payment")
-public class PaymentController{
+public class PaymentController {
 
     private final PaymentService paymentService;
 
@@ -28,6 +28,12 @@ public class PaymentController{
     @GetMapping("/get/all")
     public ResponseEntity<List<PaymentDto>> getAllPayments() {
         ResponseEntity response = paymentService.getAllPayments();
+        return response;
+    }
+
+    @PutMapping("/approve/{paymentId}")
+    public ResponseEntity<PaymentDto> approvePayment(@PathVariable Integer paymentId) {
+        ResponseEntity response = paymentService.approvePayment(paymentId);
         return response;
     }
 
