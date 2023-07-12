@@ -299,4 +299,18 @@ public class DeliveryTaskServiceImpl implements DeliveryTaskService {
         }
     }
 
+    @Override
+    public ResponseEntity searchDeliveryTaskByReferenceNo(String referenceNo) {
+        if (!referenceNo.equals("") || referenceNo != null) {
+            List<DeliveryTask> result = deliveryTaskDao.searchDeliveryTaskByReferenceNo(referenceNo);
+            List<DeliveryTaskDto> deliveryTaskDtoList = new ArrayList<>();
+            for (DeliveryTask d: result){
+                deliveryTaskDtoList.add(d.toDto());
+            }
+            return ResponseEntity.ok(deliveryTaskDtoList);
+        } else {
+            return ResponseEntity.ok("referenceNo is empty");
+        }
+    }
+
 }
