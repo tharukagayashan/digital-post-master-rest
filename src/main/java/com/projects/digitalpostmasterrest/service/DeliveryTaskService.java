@@ -19,4 +19,6 @@ public interface DeliveryTaskService {
     ResponseEntity updateDeliveryTaskStatus(DeliveryTaskStatusUpdateReqDto deliveryTaskStatusUpdateReqDto);
 
     ResponseEntity getDeliveryTaskStatusView();
+
+    ResponseEntity searchDeliveryTaskByReferenceNo(String referenceNo);
 }
