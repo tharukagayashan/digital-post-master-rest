@@ -100,11 +100,23 @@ public class PackageServiceImpl implements PackageService {
 
             newPackageDetail = packageDetailDao.save(newPackageDetail);
 
-            MailReqDto mailReqDto = new MailReqDto();
-            mailReqDto.setTo(userDetail.getEmail());
-            mailReqDto.setSubject(PACKAGE_CREATE_MAIL_SUBJECT);
-            mailReqDto.setBody(PACKAGE_CREATE_MAIL_BODY);
-            mailService.sendMail(mailSender, mailReqDto);
+            String PACKAGE_CREATE_MAIL_BODY = "" +
+                    "<h3 style='color:yellow;'>Package update ..</h3>" +
+                    "<p style='color:green';>" +
+                    "Dear " + userDetail.getName() +",<br><br>" +
+                    "Your package created successfully. We will deliver your package as soon as possible. <br>" +
+                    "<br><br>" +
+                    "Thank you <br>" +
+                    "Digital Post Team." +
+                    "</p>";
+
+            new Thread(() -> {
+                MailReqDto mailReqDto = new MailReqDto();
+                mailReqDto.setTo(userDetail.getEmail());
+                mailReqDto.setSubject(PACKAGE_CREATE_MAIL_SUBJECT);
+                mailReqDto.setBody(PACKAGE_CREATE_MAIL_BODY);
+                mailService.sendMail(mailReqDto);
+            }).start();
 
             if (newPackageDetail != null) {
 
