@@ -81,22 +81,50 @@ public class DeliveryTaskServiceImpl implements DeliveryTaskService {
                 log.error(DELIVERY_TASK_CREATE_ERROR);
                 throw new ErrorAlert(DELIVERY_TASK_CREATE_ERROR, "400");
             } else {
+                DeliveryTask finalDeliveryTask = deliveryTask;
+                Agent finalAgent = agent;
 
-                MailReqDto userMail = new MailReqDto();
-                userMail.setTo(deliveryTask.getPackageDetail().getUserDetail().getEmail());
-                userMail.setSubject(PACKAGE_DELIVERY_TASK_CREATED_MAIL_SUBJECT);
-                userMail.setBody("Your package reference no is : " + deliveryTask.getReferenceNo());
-                mailService.sendMail(mailSender, userMail);
-                log.info("User mail : {}", userMail.getTo());
-                log.info("User mail send...");
+                String DELIVERY_TASK_CREATE_USER_MAIL_BODY = "" +
+                        "<h3 style='color:yellow;'>Package update ..</h3>" +
+                        "<p style='color:green';>" +
+                        "Dear " + packageDetail.getUserDetail().getName() + ",<br><br>" +
+                        "Your package reference no is : " + finalDeliveryTask.getReferenceNo() + "<br>" +
+                        "<br><br>" +
+                        "Thank you <br>" +
+                        "Digital Post Team." +
+                        "</p>";
 
-                MailReqDto agentMail = new MailReqDto();
-                agentMail.setTo(agent.getUserDetail().getEmail());
-                agentMail.setSubject(PACKAGE_DELIVERY_TASK_CREATED_MAIL_SUBJECT);
-                agentMail.setBody("You have been assigned a new package delivery activity : " + deliveryTask.getReferenceNo());
-                mailService.sendMail(mailSender, agentMail);
-                log.info("Agent mail : {}", agentMail.getTo());
-                log.info("Agent mail send...");
+                String DELIVERY_TASK_CREATE_AGENT_MAIL_BODY = "" +
+                        "<h3 style='color:yellow;'>Package update ..</h3>" +
+                        "<p style='color:green';>" +
+                        "Dear " + agent.getName() + ",<br><br>" +
+                        "You have been assigned a new package delivery activity. reference no is : " + finalDeliveryTask.getReferenceNo() + "<br>" +
+                        "<br><br>" +
+                        "Thank you <br>" +
+                        "Digital Post Team." +
+                        "</p>";
+
+                new Thread(() -> {
+                    MailReqDto userMail = new MailReqDto();
+                    userMail.setTo(finalDeliveryTask.getPackageDetail().getUserDetail().getEmail());
+                    userMail.setSubject(PACKAGE_DELIVERY_TASK_CREATED_MAIL_SUBJECT);
+                    userMail.setBody(DELIVERY_TASK_CREATE_USER_MAIL_BODY);
+                    mailService.sendMail(userMail);
+                    log.info("User mail : {}", userMail.getTo());
+                    log.info("User mail send...");
+                }).start();
+
+                log.info("Agent email => {}",agent.getUserDetail().getEmail());
+
+                new Thread(() -> {
+                    MailReqDto agentMail = new MailReqDto();
+                    agentMail.setTo(finalAgent.getUserDetail().getEmail());
+                    agentMail.setSubject(PACKAGE_DELIVERY_TASK_CREATED_MAIL_SUBJECT);
+                    agentMail.setBody(DELIVERY_TASK_CREATE_AGENT_MAIL_BODY);
+                    mailService.sendMail(agentMail);
+                    log.info("Agent mail : {}", agentMail.getTo());
+                    log.info("Agent mail send...");
+                }).start();
                 return ResponseEntity.ok(deliveryTask.toDto());
             }
 
@@ -304,7 +332,7 @@ public class DeliveryTaskServiceImpl implements DeliveryTaskService {
         if (!referenceNo.equals("") || referenceNo != null) {
             List<DeliveryTask> result = deliveryTaskDao.searchDeliveryTaskByReferenceNo(referenceNo);
             List<DeliveryTaskDto> deliveryTaskDtoList = new ArrayList<>();
-            for (DeliveryTask d: result){
+            for (DeliveryTask d : result) {
                 deliveryTaskDtoList.add(d.toDto());
             }
             return ResponseEntity.ok(deliveryTaskDtoList);

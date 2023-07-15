@@ -75,11 +75,24 @@ public class PaymentServiceImpl implements PaymentService {
             payment.setUserDetail(user);
             payment.setPackageDetail(packageDetail);
 
-            MailReqDto mailReqDto = new MailReqDto();
-            mailReqDto.setTo(user.getEmail());
-            mailReqDto.setSubject(PAYMENT_CREATE_MAIL_SUBJECT);
-            mailReqDto.setBody(PAYMENT_CREATE_MAIL_BODY);
-            mailService.sendMail(mailSender, mailReqDto);
+            String PAYMENT_CREATE_MAIL_BODY = "" +
+                    "<h3 style='color:yellow;'>Package update ..</h3>" +
+                    "<p style='color:green';>" +
+                    "Dear " + user.getName() +",<br><br>" +
+                    "Your payment was successful. Transaction receipt will send to your mail.<br>" +
+                    "<br><br>" +
+                    "Thank you <br>" +
+                    "Digital Post Team." +
+                    "</p>";
+
+            UserDetail finalUser = user;
+            new Thread(() -> {
+                MailReqDto mailReqDto = new MailReqDto();
+                mailReqDto.setTo(finalUser.getEmail());
+                mailReqDto.setSubject(PAYMENT_CREATE_MAIL_SUBJECT);
+                mailReqDto.setBody(PAYMENT_CREATE_MAIL_BODY);
+                mailService.sendMail(mailReqDto);
+            }).start();
 
             payment = paymentDao.save(payment);
             if (payment == null) {
